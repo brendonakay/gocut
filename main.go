@@ -28,6 +28,7 @@ func main() {
     csvFile, _ := os.Open("test.csv")
     reader := csv.NewReader(bom.NewReader(csvFile))
 
+    // I SMELL A GOROUTINE?
     for {
         line, error := reader.Read()
         if error == io.EOF {
