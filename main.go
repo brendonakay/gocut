@@ -14,40 +14,19 @@
 package main
 
 import (
-    "bufio"
+//    "bufio"
     "encoding/csv"
-    "encoding/json"
+//    "encoding/json"
     "fmt"
     "io"
     "log"
     "os"
+    "github.com/bom"
 )
-
-const (
-	bom0 = 0xef
-	bom1 = 0xbb
-	bom2 = 0xbf
-)
-
-func doCheckLine(line bufio.Reader, field int, delimeter string) {
-    b, error := line.Peak(3)
-	if len(b) >= 3 &&
-		b[0] == bom0 &&
-		b[1] == bom1 &&
-		b[2] == bom2 {
-		return b[3:]
-	}
-	return b
-
-}
-
-func printLines(reader bufio.Reader, field int, delimeter string) {
-
-}
 
 func main() {
-    csvFile, _ := os.Open("people.csv")
-    reader := csv.NewReader(bufio.NewReader(csvFile))
+    csvFile, _ := os.Open("test.csv")
+    reader := csv.NewReader(bom.NewReader(csvFile))
 
     for {
         line, error := reader.Read()
@@ -56,15 +35,6 @@ func main() {
         } else if error != nil {
             log.Fatal(error)
         }
-        //people = append(people, Person{
-        //    Firstname: line[0],
-        //    Lastname:  line[1],
-        //    Address: &Address{
-        //        City:  line[2],
-        //        State: line[3],
-        //    },
-        //})
+        fmt.Println(line)
     }
-    peopleJson, _ := json.Marshal(people)
-    fmt.Println(string(peopleJson))
 }
